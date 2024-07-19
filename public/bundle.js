@@ -1,14 +1,14 @@
 'use strict';
 
 // Se obtiene el formulario y se almacena en una variable
-const formulario$1 = document.getElementById('formulario');
+const formulario$3 = document.getElementById('formulario');
 
 const validarCantidad = () => {
     // expresión regular para validar la cantidad de (0-9) con decimales
     const expRegCant = /^\d+(\.\d+)?$/;
 
     // Se obtiene el input de cantidad
-    const inputCantidad = formulario$1.cantidad;
+    const inputCantidad = formulario$3.cantidad;
 
     // Se verifica el valor del input con la expresión regular
     if(expRegCant.test(inputCantidad.value)) {
@@ -18,6 +18,50 @@ const validarCantidad = () => {
     } else {
         // Si tiene errores se agrega la clase de errores
         inputCantidad.classList.add('formulario__input--error');
+        return false;
+    }
+};
+
+// Se obtiene el formulario y se almacena en una variable
+const formulario$2 = document.getElementById('formulario');
+
+const validarNombre = () => {
+    // expresión regular para validar el nombre
+    const expRegNomb = /^[a-zA-ZÀ-ÿ\s]{1,40}$/;
+
+    // Se obtiene el input de nombre
+    const inputNombre = formulario$2['nombre-receptor'];
+
+    // Se verifica el valor del input con la expresión regular
+    if(expRegNomb.test(inputNombre.value)) {
+        // Si no tiene errores se quita la clase de error
+        inputNombre.classList.remove('formulario__input--error');
+        return true;
+    } else {
+        // Si tiene errores se agrega la clase de errores
+        inputNombre.classList.add('formulario__input--error');
+        return false;
+    }
+};
+
+// Se obtiene el formulario y se almacena en una variable
+const formulario$1 = document.getElementById('formulario');
+
+const validarCorreo = () => {
+    // expresión regular para validar el correo
+    const expRegCorreo = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
+
+    // Se obtiene el input de nombre
+    const inputCorreo = formulario$1['correo-receptor'];
+
+    // Se verifica el valor del input con la expresión regular
+    if(expRegCorreo.test(inputCorreo.value)) {
+        // Si no tiene errores se quita la clase de error
+        inputCorreo.classList.remove('formulario__input--error');
+        return true;
+    } else {
+        // Si tiene errores se agrega la clase de errores
+        inputCorreo.classList.add('formulario__input--error');
         return false;
     }
 };
@@ -47,7 +91,7 @@ const siguientePaso = () => {
         // Se obtiene el id del paso siguiente
         const id = pasos[indexPasoActivo + 1].dataset.paso;
         
-        // Se agrega el scroll al siguiente formulario
+        // Se agrega el scroll con efecto de transición al siguiente formulario
         document.querySelector(`.formulario__body [data-paso="${id}"]`).scrollIntoView({
             inline: 'start',
             behavior: 'smooth',
@@ -70,6 +114,13 @@ formulario.addEventListener('keyup', (e) => {
             // Se busca validar la cantidad
             validarCantidad();
         }
+        else if(e.target.id === 'nombre-receptor') {
+            // Se busca validar el nombre
+            validarNombre();
+        } else if (e.target.id === 'correo-receptor') {
+            // Se busca validar el correo
+            validarCorreo();
+        }
     }
 });
 
@@ -78,6 +129,7 @@ const btnFormulario = document.getElementById('formulario__btn');
 
 // Se agrega el evento de click al botón}
 btnFormulario.addEventListener('click', (e) => {
+    // Previene que no se mande el formulario en automático al dar click
     e.preventDefault();
 
     // Se obtiene con el elemento visual de los pasos en cuál paso se encuentra
@@ -86,9 +138,23 @@ btnFormulario.addEventListener('click', (e) => {
     if(pasoActual === 'cantidad') {
         // Se busca validar el input
         if( validarCantidad() ) {
+            // Se marca ese paso como completado
             marcarPaso('cantidad');
+            // Se mueve al siguiente paso
             siguientePaso();
         }
+    } else if (pasoActual === 'datos') { // Si el paso actual es datos
+        if ( validarNombre() && validarCorreo()) { // Se valida el nombre correcto
+            // Se marca ese paso como completado
+            marcarPaso('datos');
+            // Se mueve al siguiente paso
+            siguientePaso();
+        }
+    } else if (pasoActual === 'metodo' ) {
+        // Se marca ese paso como completado
+        marcarPaso('metodo');
+        // se mueve al siguiente paso
+        siguientePaso();
     }
 });
 //# sourceMappingURL=bundle.js.map

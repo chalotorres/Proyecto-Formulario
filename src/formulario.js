@@ -1,4 +1,6 @@
-import validarCantidad from "./validarCantidad";
+import validarCantidad from "./validaciones/validarCantidad";
+import validarNombre from "./validaciones/validarNombre";
+import validarCorreo from "./validaciones/validarCorreo";
 import marcarPaso from "./marcarPaso";
 import siguientePaso from "./siguientePaso";
 
@@ -17,6 +19,13 @@ formulario.addEventListener('keyup', (e) => {
             // Se busca validar la cantidad
             validarCantidad();
         }
+        else if(e.target.id === 'nombre-receptor') {
+            // Se busca validar el nombre
+            validarNombre();
+        } else if (e.target.id === 'correo-receptor') {
+            // Se busca validar el correo
+            validarCorreo();
+        }
     }
 });
 
@@ -25,6 +34,7 @@ const btnFormulario = document.getElementById('formulario__btn');
 
 // Se agrega el evento de click al botón}
 btnFormulario.addEventListener('click', (e) => {
+    // Previene que no se mande el formulario en automático al dar click
     e.preventDefault();
 
     // Se obtiene con el elemento visual de los pasos en cuál paso se encuentra
@@ -33,8 +43,22 @@ btnFormulario.addEventListener('click', (e) => {
     if(pasoActual === 'cantidad') {
         // Se busca validar el input
         if( validarCantidad() ) {
+            // Se marca ese paso como completado
             marcarPaso('cantidad');
+            // Se mueve al siguiente paso
             siguientePaso();
         }
+    } else if (pasoActual === 'datos') { // Si el paso actual es datos
+        if ( validarNombre() && validarCorreo()) { // Se valida el nombre correcto
+            // Se marca ese paso como completado
+            marcarPaso('datos');
+            // Se mueve al siguiente paso
+            siguientePaso();
+        }
+    } else if (pasoActual === 'metodo' ) {
+        // Se marca ese paso como completado
+        marcarPaso('metodo');
+        // se mueve al siguiente paso
+        siguientePaso();
     }
 });

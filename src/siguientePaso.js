@@ -19,7 +19,7 @@ const siguientePaso = () => {
         // Se obtiene el id del paso siguiente
         const id = pasos[indexPasoActivo + 1].dataset.paso;
         
-        // Se agrega el scroll al siguiente formulario
+        // Se agrega el scroll con efecto de transición al siguiente formulario
         document.querySelector(`.formulario__body [data-paso="${id}"]`).scrollIntoView({
             inline: 'start',
             behavior: 'smooth',
