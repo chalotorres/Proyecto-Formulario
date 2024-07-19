@@ -187,6 +187,18 @@ btnFormulario.addEventListener('click', (e) => {
 
         // se mueve al siguiente paso
         siguientePaso();
+    } else if (pasoActual == 'confirmacion' && !btnFormulario.matches('.formulario__btn--disabled')) { // Si se esta en el último paso y el botón no está deshabilitado
+        // En esta parte se haría la petición a un servidor, y una redirección en un caso real
+        
+        // Cambiar el botón de siguiente a transfiriendo
+        btnFormulario.querySelector('span').innerHTML = 'Transfiriendo';
+        // Inhabilitar el botón
+        btnFormulario.classList.add('formulario__btn--disabled');
+
+        setTimeout(() => {
+            formulario.classList.add('formulario--hidden');
+            document.getElementById('alerta').classList.add('alerta--active');
+        }, 4000);
     }
 });
 //# sourceMappingURL=bundle.js.map
