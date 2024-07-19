@@ -58,6 +58,38 @@ btnFormulario.addEventListener('click', (e) => {
     } else if (pasoActual === 'metodo' ) {
         // Se marca ese paso como completado
         marcarPaso('metodo');
+
+        // Formato de moneda
+        const opciones = {
+            style : 'currency',
+            currency : 'MXN',
+        };
+        // Objeto de formato para moneda
+        const formatoMoneda = new Intl.NumberFormat('es-MX', opciones);
+        // Se setea la etiqueta con el valor de la cantidad
+        document.querySelector('[data-valor="cantidad"] span').innerText = formatoMoneda.format(formulario.cantidad.value);
+        // Se setea la etiqueta con el valor del nombre
+        document.querySelector('[data-valor="nombre-receptor"] span').innerText = formulario['nombre-receptor'].value;
+        // Se setea la etiqueta con el valor del correo
+        document.querySelector('[data-valor="correo-receptor"] span').innerText = formulario['correo-receptor'].value;
+        // Se setea la etiqueta con el valor del método
+        document.querySelector('[data-valor="metodo"] span').innerText = formulario['metodo'].value;
+
+        // Cambiar el botón de siguiente a transferir
+        btnFormulario.querySelector('span').innerHTML = 'Transferir';
+
+        // Inhabilitar el botón
+        btnFormulario.classList.add('formulario__btn--disabled');
+
+        // Cambiar icono del botón para transferencia
+        btnFormulario.querySelector('[data-icono="siguiente"]').classList.remove('formulario__btn-contenedor-icono--active');
+        btnFormulario.querySelector('[data-icono="banco"]').classList.add('formulario__btn-contenedor-icono--active');
+
+        // Se vuelve a habilitar el botón después de 4 segundos
+        setTimeout(() => {
+            btnFormulario.classList.remove('formulario__btn--disabled');
+        }, 4000);
+
         // se mueve al siguiente paso
         siguientePaso();
     }
