@@ -100,8 +100,11 @@ btnFormulario.addEventListener('click', (e) => {
         // Inhabilitar el botón
         btnFormulario.classList.add('formulario__btn--disabled');
 
+        // Después de 4 segundos
         setTimeout(() => {
+            // Se oculta el formulario
             formulario.classList.add('formulario--hidden');
+            // Se muestra la alerta de transferencia realizada
             document.getElementById('alerta').classList.add('alerta--active');
         }, 4000);
     }
